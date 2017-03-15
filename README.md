@@ -50,14 +50,18 @@ Mockable.io only allows 10 urls for a unpaid account. And also it has a quota li
 ## Testing Plan (Load Test of the Mock Services using JMeter) 
 ### Test Configuration 
 
-1. Load of GET (i.e /signin) using Stepping Thread Group
-This test adds 10 users every 15 seconds until reaching 100 users. Each step takes 15 seconds to complete and JMeter waits 15 seconds before starting the next step.  After reaching 100 threads all of them will continue running and hitting the server together for 1 minute.
+####  Load of GET (i.e /signin) using Stepping Thread Group
+This test adds 10 users every 15 seconds until reaching 100 users. Each step takes 15 seconds to complete and JMeter waits 15 seconds before starting the next step. 
+
+After reaching 100 threads all of them will continue running and hitting the server together for 1 minute.
 
 Using a Random Variable (status_code for 0 & 1 values), we append it to the query parameter status=${status_code} dynamically.
+
 Using a JSR223 Assertion, we assert 200 response for status=1 & 401 for status = 0. Fail otherwise.
 
-2. Load of POST (i.e /signup) using Stepping Thread Group
+#### Load of POST (i.e /signup) using Stepping Thread Group
 Creating a Thread Group for X Users & Ramp-Up period of Y seconds. Add assertions, for the respective Response Codes.
+
 The Sampler for these handles the path, *signup?uname=${username}&pkey=${passkey}*, these variables are passed from a CSV Data Set Config file, which would look like the below table, 
 
 Username | PassKey | Expected Response Code
@@ -73,13 +77,19 @@ user8	|	abc123	|	400
 
 Using the data in the CSV file, the request is made and its response is asserted.
 
-This test adds 5 users every 20 seconds until reaching 50 users. Each step takes 20 seconds to complete and JMeter waits 20 seconds before starting the next step.  After reaching 100 threads all of them will continue running and hitting the server together for 1 minute. (This configuration is same as above, but each thread would here iterate over the all the rows of CSV config file, we are reducing it.)
+This test adds 5 users every 20 seconds until reaching 50 users. Each step takes 20 seconds to complete and JMeter waits 20 seconds before starting the next step.  
 
-3. Load of GET (i.e /signin) with Random Uniform Timers
-In this we would create a Thread Group of 100 Threads with rampup of 10 seconds. Add a Uniform Random Timer, we set a Random Max Delay of 500ms and Constant Delay Offset of 200ms. And Assert if the requests are coming with antcipated responses.
+After reaching 100 threads all of them will continue running and hitting the server together for 1 minute. (This configuration is same as above, but each thread would here iterate over the all the rows of CSV config file, we are reducing it.)
 
-4. Load of GET (i.e /signin) with Throughput Shapping Timer
-In this we would create a Thread Group of 100 Threads with rampup of 10 seconds. Instead of Using a Uniform Random Timer, we use a Throughput Shaping Timer here and try to check how the services behave, for a troughput of 10RPS, 15RPS, 20RPS.
+#### Load of GET (i.e /signin) with Random Uniform Timers
+In this we would create a Thread Group of 100 Threads with rampup of 10 seconds. 
+
+Add a Uniform Random Timer, we set a Random Max Delay of 500ms and Constant Delay Offset of 200ms. And Assert if the requests are coming with antcipated responses.
+
+#### Load of GET (i.e /signin) with Throughput Shapping Timer
+In this we would create a Thread Group of 100 Threads with rampup of 10 seconds. 
+
+Instead of Using a Uniform Random Timer, we use a Throughput Shaping Timer here and try to check how the services behave, for a troughput of 10RPS, 15RPS, 20RPS.
 
 Using the Listeners we will test the load of these services.
 
