@@ -48,7 +48,6 @@ Mockable.io only allows 10 urls for a unpaid account. And also it has a quota li
 ```
 
 ## Testing Plan (Load Test of the Mock Services using JMeter) 
-### Test Configuration 
 
 ####  Load of GET (i.e /signin) using Stepping Thread Group
 This test adds 10 users every 15 seconds until reaching 100 users. Each step takes 15 seconds to complete and JMeter waits 15 seconds before starting the next step. 
@@ -81,7 +80,7 @@ This test adds 5 users every 20 seconds until reaching 50 users. Each step takes
 
 After reaching 100 threads all of them will continue running and hitting the server together for 1 minute. (This configuration is same as above, but each thread would here iterate over the all the rows of CSV config file, we are reducing it.)
 
-1. 
+
 #### Load of GET (i.e /signin) with Random Uniform Timers
 In this we would create a Thread Group of 100 Threads with rampup of 10 seconds. 
 
