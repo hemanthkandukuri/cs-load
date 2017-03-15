@@ -2,6 +2,16 @@
 Mockable.io is used to create the mock services and the host url is, http://demo8706032.mockable.io/.
 Mockable.io only allows 10 urls for a unpaid account. And also it has a quota limit (fair use - throttled) for unpaid users. So we cannot go over 20-30 TPS.
 ## End Points - Mock URLS
+GET http://demo8706032.mockable.io/signin?status=1
+GET http://demo8706032.mockable.io/signin?status=0
+POST http://demo8706032.mockable.io/signup?uname=testuser1&pkey=abcdef1
+POST http://demo8706032.mockable.io/signup?uname=testuser2&pkey=1234567a
+POST http://demo8706032.mockable.io/signup?uname=testuser3&pkey=1234abcd
+POST http://demo8706032.mockable.io/signup?uname=testuser4&pkey=1234abcdef
+POST http://demo8706032.mockable.io/signup?uname=testuser5&pkey=abcdefgh
+POST http://demo8706032.mockable.io/signup?uname=testuser6&pkey=12345678
+POST http://demo8706032.mockable.io/signup?uname=testuser7&pkey=abc123
+POST http://demo8706032.mockable.io/signup?uname=user8&pkey=abc123
 ### Sign In -  GET
 1. */signin?status=1* - 200 OK
 ..Response Message
@@ -95,14 +105,36 @@ Using the Listeners we will test the load of these services.
 
 
 
+## Results - 16-03-2016 3:35 AM
+### GET - SignIn
+Average Response Time - 28826ms (28.8s)
+
+### POST - SignUp
+Average Response Time - 21550ms (21.5s)
+
+### GET - SignIn - Random Timer
+Average Response Time - 28700 (22.7s)
+
+### GET - SignIn - Throughtput Shapping Timer
+Average Response Time - 21744 (21.7s)
+
+### Over All
+Average - 25444 (25.4s)
+Troughput - 106.7/min
 
 
 
+###  API does work with high load without failing or in the alternative, percentile based scores for response times?
+In any of the above cases, average response time near to 20s+ is not appreciated from an api. All the Thread Group's Samplers have less than 30 percentile of samples, with average response time less than 6s.
 
+### API fails with very high load test?
+It is evident that API is not failing even at high load test. It is coming back with either the anticipated response or the Quota Limit message, which is again being implemented by mockable, which means, the mock is working well even at a higher load. But the response times are very slow as stated above.
 
-
-
-
-
-
-
+### Summary Table
+Label	|	# Samples	|	Average	|	Min	|	Max	|	Std. Dev.	|	Error %	|	Throughput	|	Received KB/sec	|	Sent KB/sec	|	Avg. Bytes
+-------	|	-------	|	-------	|	----|	----|	--------	|	-------	|	----------	|	--------------	|	----------	|	----------
+SignIn	|	492	|	29685	|	321	|	56693	|	23372.91	|	0.90041	|	2.00831	|	1.65	|	0.28	|	841.1
+Mock - SignUp - POST	|	503	|	20078	|	320	|	57105	|	21149.92	|	0.81909	|	1.49981	|	1.17	|	0.34	|	800
+SignIn - Timers - Random	|	100	|	20193	|	343	|	55361	|	17086.53	|	1	|	1.67305	|	1.65	|	0.31	|	1007
+SignIn - Timers - Troughput	|	100	|	49790	|	364	|	56547	|	14091.31	|	1	|	0.90279	|	0.9	|	0.17	|	1025.7
+TOTAL	|	1195	|	26529	|	320	|	57105	|	22902.09	|	0.88285	|	1.71527	|	1.43	|	0.31	|	853.1
