@@ -59,8 +59,9 @@ Using a JSR223 Assertion, we assert 200 response for status=1 & 401 for status =
 2. Load of POST (i.e /signup) using Stepping Thread Group
 Creating a Thread Group for X Users & Ramp-Up period of Y seconds. Add assertions, for the respective Response Codes.
 The Sampler for these handles the path, *signup?uname=${username}&pkey=${passkey}*, these variables are passed from a CSV Data Set Config file, which would look like the below table, 
+
 Username | PassKey | Expected Response Code
---- | --- | ---
+-------- | ------- | ----------------------
 testuser1	|	abcdef1	|	200
 testuser2	|	1234567a	|	200
 testuser3	|	1234abcd	|	200
